@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "17049709651",
+    "project_id": "isear2",
+    "storage_bucket": "isear2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17049709651:android:a7f72a048008552e296aa6",
+        "android_client_info": {
+          "package_name": "com.example.be_isear"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17049709651-ndsd9urlhbopc8mdp6a3vlosq3dfd3i8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi9wQRqzb54Icoys51iAZZ96OHDrS-AqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17049709651-ndsd9urlhbopc8mdp6a3vlosq3dfd3i8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
