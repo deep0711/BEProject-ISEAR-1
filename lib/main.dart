@@ -1,3 +1,5 @@
+import 'package:be_isear/Screens/Login/login_user.dart';
+import 'package:be_isear/Screens/Register/regiater_user.dart';
 import 'package:be_isear/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,12 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.white, 
             scaffoldBackgroundColor: Colors.white
         ),
-        home: const SplashScreen()
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/login': (context) => const LoginUser(),
+          '/register': (context) => const RegisterUser()
+        },
       );
   }
 }

@@ -75,7 +75,7 @@ class _LoginUser extends State<LoginUser> {
                     onPressed: () {},
                     child: const Text(
                       'Forget Password',
-                      style: TextStyle(color: Colors.blue, fontSize: 15)
+                      style: TextStyle(color: Colors.blue, fontSize: 15, letterSpacing: 2.0)
                     ),
                   ),
                   Container(
@@ -99,7 +99,18 @@ class _LoginUser extends State<LoginUser> {
                   const SizedBox(
                     height: 130,
                   ),
-                  const Text('New User? Create Account')
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    }, 
+                    child: const Text(
+                      'New User? Create Account!!',
+                      style: TextStyle(
+                        color: Colors.black,
+                        letterSpacing: 2.0,
+                      ),
+                    )
+                  ),
                 ],
               ),
             )

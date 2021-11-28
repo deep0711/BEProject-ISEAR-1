@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FireBaseAuthHelper {
 
   /// Register Suer With Personal Email and Password
-  static Future<User?> registerUsingEmailPassword({
+  static Future<User?> registerUsingEmailPassword ({
       required String email, 
       required String password
     }) async {
@@ -16,12 +16,11 @@ class FireBaseAuthHelper {
         password: password
       );
       user = userCredential.user;
-    } on FirebaseAuthException catch (err) {
-      if (err.code == "weak-password") {
-        //
-      } else if (err.code == "email-already-in-use") {
-        //
-      }
+    } on FirebaseAuthException catch(err) {
+      // 
+    }
+    catch(err) {
+      // print(err);
     }
     return user;
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:be_isear/Screens/Login/login_user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +21,11 @@ class _SplashScreen extends State<SplashScreen> {
   void initState() {
     _initialiseFirebase().then((result) {
       Timer(
-          const Duration(seconds: 3),
-          () => {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const LoginUser()))
-              });
+        const Duration(seconds: 3),
+        () => {
+          Navigator.pushNamed(context, '/login')
+        }
+      );
     });
 
     super.initState();
@@ -48,8 +47,12 @@ class _SplashScreen extends State<SplashScreen> {
                 child: Image.asset('Assets/splash.png'),
               ),
               const Text(
-                'I S E A R',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                'ISEAR',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  letterSpacing: 2.0,
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 50),
