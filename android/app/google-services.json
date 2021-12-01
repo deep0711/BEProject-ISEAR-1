@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "17049709651-l54ijplm39mrvplk6crl8lde6040t6se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.be_isear",
+            "certificate_hash": "05141e5464efed12fb7a26cfa0287c7c11b0a582"
+          }
+        },
+        {
           "client_id": "17049709651-ndsd9urlhbopc8mdp6a3vlosq3dfd3i8.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -39,6 +39,7 @@ class _RegisterUserState extends State<RegisterUser> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -76,7 +77,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     BoxShadow(
                       color: Colors.grey,
                       offset: Offset(0.0, 1.0),
-                      blurRadius: 6.0
+                      blurRadius: 2.0
                     )
                   ]
                 ),

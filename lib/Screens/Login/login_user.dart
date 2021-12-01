@@ -2,6 +2,7 @@ import 'package:be_isear/Authentication/firebase_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginUser extends StatefulWidget {
   const LoginUser({Key? key}) : super(key: key);
@@ -19,15 +20,21 @@ class _LoginUser extends State<LoginUser> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    super.dispose();
   }
 
+  //Login user with his / her Email Id
   void loginUser(String email , String password) async {
-
-    // Login User using Auth , Email and Password
+    //using Static Function of FireBaseAuthHelper Class
     User? user = await FireBaseAuthHelper.signInUsingEmailPassword(
       email: email 
       password: password);
-    print(user);
+
+    if(user != null) {
+      //If user is Successfully SignedIn
+      //Remove all Routes in the Stack and take him to User Screen
+      Navigator.pushReplacementNamed(context , '/userScreen');
+    }
   }
 
   @override
@@ -88,6 +95,7 @@ class _LoginUser extends State<LoginUser> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(elevation: 2.0),
                       onPressed: () async { 
+                        //Call LoginUser Function for Signing In the User
                         loginUser(_emailController.text, _passwordController.text);
                       },
                       child: const Text(
@@ -96,11 +104,53 @@ class _LoginUser extends State<LoginUser> {
                       ),
                     ),
                   ),
+                  const Divider(
+                    height: 20.0,
+                    indent: 20.0,
+                    endIndent: 20.0,
+                    thickness: 2,
+                  ),
+                  Container(  
+                    color: Colors.grey.shade100,
+                    width: 350,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Image.asset(
+                          'Assets/google.png',
+                          width: 50,
+                          height: 50.0,
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            //Login User using Google
+                            User? user = await FireBaseAuthHelper.signInWithGoogle(context: context);
+                            if(user != null) {
+                              //If Success then Take User to UserScreen after Removing All Previous Routes from the Stack
+                              Navigator.pushReplacementNamed(context, '/userScreen');
+                            }
+                              
+                          },
+                          child: Text(
+                            'Sign In With Google',
+                            style: GoogleFonts.caveat(
+                              textStyle: const TextStyle(
+                                letterSpacing: 2.0,
+                                fontSize: 20.0,
+                                color: Colors.black
+                              )
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   const SizedBox(
-                    height: 130,
+                    height: 50,
                   ),
                   TextButton(
                     onPressed: () {
+                      //Take user to Register Screen
                       Navigator.pushNamed(context, '/register');
                     }, 
                     child: const Text(

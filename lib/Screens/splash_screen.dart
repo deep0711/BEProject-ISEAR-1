@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:be_isear/Authentication/firebase_authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,20 +14,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreen extends State<SplashScreen> {
+
   Future<FirebaseApp> _initialiseFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     return firebaseApp;
   }
 
-  @override
-  void initState() {
-    _initialiseFirebase().then((result) {
-      Timer(
+  void getRoute() {
+    // Get the Current logged in User
+    User? user = FirebaseAuth.instance.currentUser;
+    String routeName = "";
+    //Set the RouteName Accordingly
+    routeName = user == null ? "/login" : "/userScreen";
+    Timer(
+      // After 3 seconds, Navigate the User to Login / UserScreen, Replacing all routes in the stack
         const Duration(seconds: 3),
         () => {
-          Navigator.pushNamed(context, '/login')
+          Navigator.pushReplacementNamed(context, routeName)
         }
       );
+  }
+
+  @override
+  void initState() {
+    // Initialise Firebase for this App.
+    _initialiseFirebase().then((result) {
+      getRoute(); // Get the Next Route after Splash Screen.
     });
 
     super.initState();
