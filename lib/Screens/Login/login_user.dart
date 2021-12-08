@@ -24,13 +24,22 @@ class _LoginUser extends State<LoginUser> {
   }
 
   //Login user with his / her Email Id
-  void loginUser(String email , String password) async {
+  void loginUser({required String email , required String password ,required BuildContext context}) async {
     //using Static Function of FireBaseAuthHelper Class
-    User? user = await FireBaseAuthHelper.signInUsingEmailPassword(
-      email: email 
-      password: password);
+    final String status = await FireBaseAuthHelper.signInUsingEmailPassword(
+      email: email,
+      password: password
+    );
 
-    if(user != null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(status),
+          backgroundColor: Colors.black,
+        ),
+    );
+    // ignore: avoid_print
+    print(status);
+    if(status == "Successfully Signed In") {
       //If user is Successfully SignedIn
       //Remove all Routes in the Stack and take him to User Screen
       Navigator.pushReplacementNamed(context , '/userScreen');
@@ -96,7 +105,7 @@ class _LoginUser extends State<LoginUser> {
                       style: ElevatedButton.styleFrom(elevation: 2.0),
                       onPressed: () async { 
                         //Call LoginUser Function for Signing In the User
-                        loginUser(_emailController.text, _passwordController.text);
+                        loginUser(email: _emailController.text, password: _passwordController.text, context: context);
                       },
                       child: const Text(
                         'Login',

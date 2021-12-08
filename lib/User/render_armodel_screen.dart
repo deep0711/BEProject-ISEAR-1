@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class RenderArModelScreen extends StatefulWidget {
   final bool cameraPermission; // True if the user has provided Camera Permission, else False
@@ -15,12 +16,6 @@ class RenderArModelScreen extends StatefulWidget {
 
 class _RenderArModelScreenState extends State<RenderArModelScreen> {
   //On basis of cameraPermission render different Bodies
-  @override
-  void initState() {
-    // ignore: avoid_print
-    print(widget.pickedImage!.path);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +40,27 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
               )
             )
             :
-            const Center(
-              child: Text('Permission Denied'),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Permission Denied'),
+                  TextButton(
+                    onPressed: () async {
+                      await openAppSettings();
+                    }, 
+                    child: Text(
+                      'Open Settings',
+                      style: GoogleFonts.caveat(
+                        textStyle: const TextStyle(
+                          fontSize: 30.0,
+                          letterSpacing: 2.0
+                        )
+                      ),
+                    )
+                  )
+                ],
+              ),
             ),
       );
   }

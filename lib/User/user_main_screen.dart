@@ -1,6 +1,8 @@
 
+import 'package:be_isear/Components/drawer.dart';
+import 'package:be_isear/User/User%20Dashboard/user_dashboard.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:be_isear/Authentication/firebase_authentication.dart';
 import 'package:be_isear/User/render_armodel_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,30 +56,31 @@ class _UserMainScreenState extends State<UserMainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main Screen'),
-        centerTitle: true,
-        titleSpacing: 2.0,
-        bottomOpacity: 2.0,
+        title: Text(
+          'ISEAR',
+          style: GoogleFonts.caveat(
+            letterSpacing: 3.0,
+            textStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            )
+          ),
+        )
       ),
       body: PageView(
         controller: pageController,
         children:<Widget> [ 
           Container(
             color: Colors.grey.shade200,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  await FireBaseAuthHelper.signOutuser();
-                  Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
-                },
-                child: const Text('Sign Out!'),
-              ),
-            ),
+            child: const UserDashboard()
           ),
           Container(
-            color: Colors.amber,
-            child: const Center(
-              child: Text('Second Page'),
+            color: Colors.white,
+            child:  Center(
+              child: Text(
+                'User Dashboard',
+                style: GoogleFonts.caveat(),
+              )
             ),
           ),
           Container(
@@ -94,10 +97,12 @@ class _UserMainScreenState extends State<UserMainScreen> {
           bool? permissionGranted = await askCameraPermissionFromUser();
           if( permissionGranted != null &&  permissionGranted) {
             await selectFromCamera();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RenderArModelScreen(cameraPermission: true , pickedImage: cameraFile))
-            );
+            if(cameraFile != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RenderArModelScreen(cameraPermission: true , pickedImage: cameraFile))
+              );
+            }
           } else {
             Navigator.push(
               context,
@@ -107,6 +112,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
         },
         child: const Icon(Icons.camera),
       ),
+      drawer: CustomDrawer(),
       floatingActionButtonLocation: _fabLocation,
       bottomNavigationBar: BottomAppBar(
         elevation: 1,
@@ -118,7 +124,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                onPressed: () {
+                onPressed: () { 
                   setState(() {
                     pageController.jumpToPage(0);
                   });

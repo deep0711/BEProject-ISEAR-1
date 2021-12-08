@@ -32,23 +32,20 @@ class FireBaseAuthHelper {
   }
 
   /// SignIn User With Email and Password
-  static Future<User?> signInUsingEmailPassword({
+  static Future<String> signInUsingEmailPassword({
     required String email, 
     required String password
   }) async {
-    
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    User? user;
-
     try {
-      UserCredential userCredential = await firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
-      user = userCredential.user;
+      await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (err) {
-      //
+        return err.message.toString();
+    } catch (e) {
+      return "Unknown Error";
     }
 
-    return user;
+    return "Successfully Signed In";
   }
 
   // Google Sign In User
