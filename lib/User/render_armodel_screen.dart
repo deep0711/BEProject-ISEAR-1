@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,9 +13,10 @@ class RenderArModelScreen extends StatefulWidget {
   final bool
       cameraPermission; // True if the user has provided Camera Permission, else False
   final String? label;
+  final String? confidence;
 
   const RenderArModelScreen(
-      {Key? key, required this.cameraPermission, this.label})
+      {Key? key, required this.cameraPermission, this.label, this.confidence})
       : super(key: key);
 
   @override
@@ -26,49 +30,65 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
 
   _onArCoreViewCreated(ArCoreController _controller) {
     arCoreController = _controller;
-    _addSphere(arCoreController);
-    _addCube(arCoreController);
-    _addCyclinder(arCoreController);
+    //arCoreController.onNodeTap = (name) => onTapHandler(name);
+    _addModel(arCoreController);
+    /*
+    //Based on Label value, add different type of Models
+    switch (widget.label) {
+      case "Banana":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Cabbage":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Mussel":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Orange":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Cocoba":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+    }
+    */
   }
 
-  _addSphere(ArCoreController _controller) {
-    final material = ArCoreMaterial(color: Colors.deepOrange);
-    final sphere = ArCoreSphere(materials: [material], radius: 0.2);
-    final node = ArCoreNode(shape: sphere, position: vector.Vector3(0, 0, -1));
-
-    _controller.addArCoreNode(node);
-  }
-
-  _addCyclinder(ArCoreController _controller) {
-    final material = ArCoreMaterial(color: Colors.green, reflectance: 1);
-    final cylinder =
-        ArCoreCylinder(materials: [material], radius: 0.4, height: 0.3);
-    final node = ArCoreNode(
-      shape: cylinder,
-      position: vector.Vector3(
-        0,
-        -2.5,
-        -3.0,
-      ),
+  void onTapHandler(String name) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+          content: Text('Object Detected -' +
+              widget.label! +
+              ' with confidence ' +
+              widget.confidence!)),
     );
-
-    _controller.addArCoreNode(node);
   }
 
-  _addCube(ArCoreController _controller) {
-    final material = ArCoreMaterial(color: Colors.pink, metallic: 1);
+  _addModel(ArCoreController _controller) async {
+    final ByteData textureBytes = await rootBundle.load('Assets/test.png');
+
+    final material = ArCoreMaterial(
+        color: Color.fromARGB(120, 66, 134, 244),
+        textureBytes: textureBytes.buffer.asUint8List());
+
+    //Adding a Cube
     final cube =
-        ArCoreCube(materials: [material], size: vector.Vector3(1, 1, 1));
-    final node = ArCoreNode(
-      shape: cube,
-      position: vector.Vector3(
-        -0.5,
-        -0.5,
-        -3,
-      ),
-    );
+        ArCoreCube(materials: [material], size: vector.Vector3(0.1, 0.1, 0.1));
 
-    _controller.addArCoreNode(node);
+    final cubenode = ArCoreNode(shape: cube, position: vector.Vector3(0, 0, 0));
+
+    _controller.addArCoreNode(cubenode);
   }
 
   @override
@@ -82,7 +102,7 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Render Ar Model'),
+        title: Text(widget.label! + '-' + widget.confidence!),
         centerTitle: true,
         titleSpacing: 2.0,
         bottomOpacity: 2.0,
@@ -90,6 +110,7 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
       body: widget.cameraPermission == true
           ? ArCoreView(
               onArCoreViewCreated: _onArCoreViewCreated,
+              enableTapRecognizer: true,
             )
           : Center(
               child: Column(

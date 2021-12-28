@@ -53,16 +53,16 @@ class _TensorflowState extends State<Tensorflow> {
       return;
     }
 
-    print('The prediction is');
     print(output);
 
     String label = output[0]["label"];
+    String confidence = output[0]["confidence"].toString();
 
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                RenderArModelScreen(cameraPermission: true, label: label)));
+            builder: (context) => RenderArModelScreen(
+                cameraPermission: true, label: label, confidence: confidence)));
   }
 
   @override
