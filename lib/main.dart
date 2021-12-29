@@ -14,18 +14,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primaryColor: Colors.white, 
-            scaffoldBackgroundColor: Colors.white
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/login': (context) => const LoginUser(),
-          '/register': (context) => const RegisterUser(),
-          '/userScreen': (context) => const UserMainScreen(),
-        },
-      );
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primaryColor: Colors.white, scaffoldBackgroundColor: Colors.white),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => const LoginUser(),
+        '/register': (context) => const RegisterUser(),
+        '/userScreen': (context) => const UserMainScreen(),
+      },
+    );
   }
 }

@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.be_isear">
 
+    <uses-sdk android:minSdkVersion="24" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-feature android:name="android.hardware.camera.ar" />
+   
     <application
         android:label="be_isear"
         android:icon="@mipmap/ic_launcher">
@@ -30,6 +32,8 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+            <meta-data android:name="com.google.ar.core" android:value="required" />  
+              
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
