@@ -1,4 +1,6 @@
+import 'dart:ui';
 
+import 'package:be_isear/Components/appbar.dart';
 import 'package:be_isear/Components/drawer.dart';
 import 'package:be_isear/User/User%20Dashboard/user_dashboard.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +17,11 @@ class UserMainScreen extends StatefulWidget {
 }
 
 class _UserMainScreenState extends State<UserMainScreen> {
+
+  final TextEditingController _addressController = TextEditingController();
+
+  //To Store the Address of the Store
+  String storeAddress = "";
 
   //File to Store Image Picked by User through Camera or Gallery
   late XFile? cameraFile;
@@ -36,6 +43,187 @@ class _UserMainScreenState extends State<UserMainScreen> {
     return status.isGranted;
   }
 
+  // Returns the Current Address set by User
+  Future<String> getUserStoreAddress() async {
+    if(storeAddress == "") {
+      bool? future = await showModalBottomSheet<bool>(
+        elevation: 2.0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(50.0)
+          )
+        ),
+        isScrollControlled: true,
+        context: context, 
+        builder: (BuildContext context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              height: 300,
+              color: Colors.transparent
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0)
+                  )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          'Enter the Store\'s Name',
+                          style: GoogleFonts.caveat(
+                            textStyle: const TextStyle(
+                              fontSize: 20.0,
+                              letterSpacing: 2.0
+                            )
+                          ),
+                        )
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      )
+                      TextField(
+                          controller: _addressController,
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            labelText: 'Store\'s Name',
+                            prefixIcon: Icon(Icons.store)
+                          ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              const _newValue = "WallMart";
+                              _addressController.value = TextEditingValue(
+                                text: _newValue,
+                                selection: TextSelection.fromPosition(
+                                  const TextPosition(offset: _newValue.length)
+                                )
+                              )
+                            }, 
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green.shade300)),
+                            child: Text(
+                              'WallMart',
+                              style: GoogleFonts.caveat(
+                                textStyle: const TextStyle(
+                                  fontSize: 15.0,
+                                  letterSpacing: 2.0,
+                                  color: Colors.black
+                                )
+                              ),
+                            )
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              const _newValue = "Big Bazar";
+                              _addressController.value = TextEditingValue(
+                                text: _newValue,
+                                selection: TextSelection.fromPosition(
+                                  const TextPosition(offset: _newValue.length)
+                                )
+                              )
+                            }, 
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green.shade300)),
+                            child: Text(
+                              'Big Bazar',
+                              style: GoogleFonts.caveat(
+                                textStyle: const TextStyle(
+                                  fontSize: 15.0,
+                                  letterSpacing: 2.0,
+                                  color: Colors.black
+                                )
+                              ),
+                            )
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              _addressController.text = "Pantaloons";
+                              setState(() { });
+                            }, 
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green.shade300)),
+                            child: Text(
+                              'Pantaloons',
+                              style: GoogleFonts.caveat(
+                                textStyle: const TextStyle(
+                                  fontSize: 15.0,
+                                  letterSpacing: 2.0,
+                                  color: Colors.black
+                                )
+                              ),
+                            )
+                          )
+                        ],
+                      )
+                      const SizedBox(
+                        height: 20
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context)
+                            }, 
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.amber)),
+                            child: Text(
+                              'Done ?',
+                              style: GoogleFonts.caveat(
+                                textStyle: const TextStyle(
+                                  fontSize: 15.0,
+                                  letterSpacing: 2.0,
+                                  color: Colors.black
+                                )
+                              ),
+                            )
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                             
+                            }, 
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.amber)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Icon(Icons.location_pin)
+                                Text(
+                                  'Wanna Try GPS?',
+                                  style: GoogleFonts.caveat(
+                                    textStyle: const TextStyle(
+                                      fontSize: 15.0,
+                                      letterSpacing: 2.0,
+                                      color: Colors.black
+                                    )
+                                  ),
+                                ),
+                              ],
+                            )
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+      ); 
+    }
+    return storeAddress;
+  }
+
   Future<void> selectFromCamera() async {
     //create a instance of Image Picker
     final ImagePicker _picker = ImagePicker();
@@ -55,17 +243,9 @@ class _UserMainScreenState extends State<UserMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'ISEAR',
-          style: GoogleFonts.caveat(
-            letterSpacing: 3.0,
-            textStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            )
-          ),
-        )
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: MainScreenAppBar(),
       ),
       body: PageView(
         controller: pageController,
@@ -84,7 +264,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
             ),
           ),
           Container(
-            color: Colors.amber,
+            color: Colors.white,
             child: const Center(
               child: Text('Third Page'),
             ),
@@ -93,6 +273,8 @@ class _UserMainScreenState extends State<UserMainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async { 
+          //Get the User Store Address
+          String userStoreAddress = await getUserStoreAddress();
           //Check for Camera Permission from user
           bool? permissionGranted = await askCameraPermissionFromUser();
           if( permissionGranted != null &&  permissionGranted) {

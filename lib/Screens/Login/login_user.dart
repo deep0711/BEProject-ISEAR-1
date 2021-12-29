@@ -50,7 +50,7 @@ class _LoginUser extends State<LoginUser> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.yellow.shade100,
             body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[

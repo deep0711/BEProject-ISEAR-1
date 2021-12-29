@@ -50,30 +50,46 @@ class _SplashScreen extends State<SplashScreen> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.green,
-        body: Center(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.amber.shade500,
+                Colors.yellow.shade200
+              ]
+            ),
+          ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 250.0,
-                width: 250.0,
-                child: Image.asset('Assets/splash.png'),
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 250.0,
+                    width: 250.0,
+                    child: Image.asset('Assets/splash.png'),
+                  ),
+                  const Text(
+                    'ISEAR',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  )
+                ],
               ),
-              const Text(
-                'ISEAR',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  letterSpacing: 2.0,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 50),
-                child: CircularProgressIndicator(
-                  color: Colors.black,
-                ),
-              )
             ],
           ),
         ),

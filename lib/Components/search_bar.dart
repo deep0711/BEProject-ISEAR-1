@@ -13,10 +13,10 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(2.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.shade200,
+          color: Colors.white,
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
@@ -42,7 +42,7 @@ class _SearchBarState extends State<SearchBar> {
                         style: GoogleFonts.caveat(
                           letterSpacing: 2.0,
                           textStyle: const TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 15.0,
                             fontWeight: FontWeight.bold
                           )
                         ),
