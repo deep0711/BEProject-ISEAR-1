@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import 'dart:ui';
 
 import 'package:be_isear/Components/appbar.dart';
-=======
->>>>>>> a1422186664eada2fc1da2a2f8f195179c7e807e
 import 'package:be_isear/Components/drawer.dart';
 import 'package:be_isear/User/User%20Dashboard/user_dashboard.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,15 +18,12 @@ class UserMainScreen extends StatefulWidget {
 }
 
 class _UserMainScreenState extends State<UserMainScreen> {
-<<<<<<< HEAD
 
   final TextEditingController _addressController = TextEditingController();
 
   //To Store the Address of the Store
   String storeAddress = "";
 
-=======
->>>>>>> a1422186664eada2fc1da2a2f8f195179c7e807e
   //File to Store Image Picked by User through Camera or Gallery
   late XFile? cameraFile;
 
@@ -252,21 +246,10 @@ class _UserMainScreenState extends State<UserMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: MainScreenAppBar(),
       ),
-=======
-      appBar: AppBar(
-          title: Text(
-        'ISEAR',
-        style: GoogleFonts.caveat(
-            letterSpacing: 3.0,
-            textStyle:
-                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-      )),
->>>>>>> a1422186664eada2fc1da2a2f8f195179c7e807e
       body: PageView(
         controller: pageController,
         children: <Widget>[
@@ -288,13 +271,9 @@ class _UserMainScreenState extends State<UserMainScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-<<<<<<< HEAD
         onPressed: () async { 
           //Get the User Store Address
           String userStoreAddress = await getUserStoreAddress();
-=======
-        onPressed: () async {
->>>>>>> a1422186664eada2fc1da2a2f8f195179c7e807e
           //Check for Camera Permission from user
           bool? permissionGranted = await askCameraPermissionFromUser();
           if (permissionGranted != null && permissionGranted) {
