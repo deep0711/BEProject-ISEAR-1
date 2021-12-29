@@ -1,4 +1,3 @@
-
 import 'package:be_isear/Components/drawer.dart';
 import 'package:be_isear/User/User%20Dashboard/user_dashboard.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,15 +6,15 @@ import 'package:be_isear/User/render_armodel_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:be_isear/Tensorflow/tensorflow.dart';
 
 class UserMainScreen extends StatefulWidget {
-  const UserMainScreen({ Key? key }) : super(key: key);
+  const UserMainScreen({Key? key}) : super(key: key);
   @override
   _UserMainScreenState createState() => _UserMainScreenState();
 }
 
 class _UserMainScreenState extends State<UserMainScreen> {
-
   //File to Store Image Picked by User through Camera or Gallery
   late XFile? cameraFile;
 
@@ -23,12 +22,13 @@ class _UserMainScreenState extends State<UserMainScreen> {
   final PageController pageController = PageController(initialPage: 0);
 
   //FAB to tak Picture
-  final FloatingActionButtonLocation _fabLocation = FloatingActionButtonLocation.endDocked;
+  final FloatingActionButtonLocation _fabLocation =
+      FloatingActionButtonLocation.endDocked;
 
   Future<bool?> askCameraPermissionFromUser() async {
     //Check the Current Status of Camera Permission
     var status = await Permission.camera.status;
-    if(status.isDenied) {
+    if (status.isDenied) {
       // Camera Permission Not Granted Earlier or Never Asked
       status = await Permission.camera.request();
     }
@@ -41,9 +41,9 @@ class _UserMainScreenState extends State<UserMainScreen> {
     final ImagePicker _picker = ImagePicker();
 
     cameraFile = await _picker.pickImage(
-      source: ImageSource.camera,
-      preferredCameraDevice: CameraDevice.front // Back side Camera
-    );
+        source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.front // Back side Camera
+        );
   }
 
   @override
@@ -52,36 +52,29 @@ class _UserMainScreenState extends State<UserMainScreen> {
     pageController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'ISEAR',
-          style: GoogleFonts.caveat(
+          title: Text(
+        'ISEAR',
+        style: GoogleFonts.caveat(
             letterSpacing: 3.0,
-            textStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            )
-          ),
-        )
-      ),
+            textStyle:
+                const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      )),
       body: PageView(
         controller: pageController,
-        children:<Widget> [ 
-          Container(
-            color: Colors.grey.shade200,
-            child: const UserDashboard()
-          ),
+        children: <Widget>[
+          Container(color: Colors.grey.shade200, child: const UserDashboard()),
           Container(
             color: Colors.white,
-            child:  Center(
-              child: Text(
-                'User Dashboard',
-                style: GoogleFonts.caveat(),
-              )
-            ),
+            child: Center(
+                child: Text(
+              'User Dashboard',
+              style: GoogleFonts.caveat(),
+            )),
           ),
           Container(
             color: Colors.amber,
@@ -92,22 +85,25 @@ class _UserMainScreenState extends State<UserMainScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async { 
+        onPressed: () async {
           //Check for Camera Permission from user
           bool? permissionGranted = await askCameraPermissionFromUser();
-          if( permissionGranted != null &&  permissionGranted) {
+          if (permissionGranted != null && permissionGranted) {
             await selectFromCamera();
-            if(cameraFile != null) {
+            if (cameraFile != null) {
+              // Now, pass the image to the model, predict it then from there pass it to the renderARModel
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RenderArModelScreen(cameraPermission: true , pickedImage: cameraFile))
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Tensorflow(
+                          cameraPermission: true, pickedImage: cameraFile)));
             }
           } else {
             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const RenderArModelScreen(cameraPermission: false))
-            );
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const RenderArModelScreen(cameraPermission: false)));
           }
         },
         child: const Icon(Icons.camera),
@@ -124,7 +120,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                onPressed: () { 
+                onPressed: () {
                   setState(() {
                     pageController.jumpToPage(0);
                   });

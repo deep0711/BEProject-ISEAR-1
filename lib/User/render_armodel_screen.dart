@@ -1,14 +1,23 @@
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class RenderArModelScreen extends StatefulWidget {
-  final bool cameraPermission; // True if the user has provided Camera Permission, else False
-  final XFile? pickedImage;
-  const RenderArModelScreen({ Key? key , required this.cameraPermission , this.pickedImage }) : super(key: key);
+  final bool
+      cameraPermission; // True if the user has provided Camera Permission, else False
+  final String? label;
+  final String? confidence;
+
+  const RenderArModelScreen(
+      {Key? key, required this.cameraPermission, this.label, this.confidence})
+      : super(key: key);
 
   @override
   _RenderArModelScreenState createState() => _RenderArModelScreenState();
@@ -17,51 +26,110 @@ class RenderArModelScreen extends StatefulWidget {
 class _RenderArModelScreenState extends State<RenderArModelScreen> {
   //On basis of cameraPermission render different Bodies
 
+  late ArCoreController arCoreController;
+
+  _onArCoreViewCreated(ArCoreController _controller) {
+    arCoreController = _controller;
+    //arCoreController.onNodeTap = (name) => onTapHandler(name);
+    _addModel(arCoreController);
+    /*
+    //Based on Label value, add different type of Models
+    switch (widget.label) {
+      case "Banana":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Cabbage":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Mussel":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Orange":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+      case "Cocoba":
+        {
+          _addModel(arCoreController);
+        }
+        break;
+    }
+    */
+  }
+
+  void onTapHandler(String name) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+          content: Text('Object Detected -' +
+              widget.label! +
+              ' with confidence ' +
+              widget.confidence!)),
+    );
+  }
+
+  _addModel(ArCoreController _controller) async {
+    final ByteData textureBytes = await rootBundle.load('Assets/test.png');
+
+    final material = ArCoreMaterial(
+        color: Color.fromARGB(120, 66, 134, 244),
+        textureBytes: textureBytes.buffer.asUint8List());
+
+    //Adding a Cube
+    final cube =
+        ArCoreCube(materials: [material], size: vector.Vector3(0.1, 0.1, 0.1));
+
+    final cubenode = ArCoreNode(shape: cube, position: vector.Vector3(0, 0, 0));
+
+    _controller.addArCoreNode(cubenode);
+  }
+
+  @override
+  void dispose() {
+    arCoreController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Render Ar Model'),
-          centerTitle: true,
-          titleSpacing: 2.0,
-          bottomOpacity: 2.0,
-        ),
-        body: widget.cameraPermission == true ?
-            Center(
-              child: Text(
-                'Loading Your Model .... hang Tight!!!',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.caveat(
-                  textStyle: const TextStyle(
-                    letterSpacing: 3.0,
-                    fontSize: 25
-                  )
-                ),
-              )
+      appBar: AppBar(
+        title: Text(widget.label! + '-' + widget.confidence!),
+        centerTitle: true,
+        titleSpacing: 2.0,
+        bottomOpacity: 2.0,
+      ),
+      body: widget.cameraPermission == true
+          ? ArCoreView(
+              onArCoreViewCreated: _onArCoreViewCreated,
+              enableTapRecognizer: true,
             )
-            :
-            Center(
+          : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Permission Denied'),
                   TextButton(
-                    onPressed: () async {
-                      await openAppSettings();
-                    }, 
-                    child: Text(
-                      'Open Settings',
-                      style: GoogleFonts.caveat(
-                        textStyle: const TextStyle(
-                          fontSize: 30.0,
-                          letterSpacing: 2.0
-                        )
-                      ),
-                    )
-                  )
+                      onPressed: () async {
+                        await openAppSettings();
+                      },
+                      child: Text(
+                        'Open Settings',
+                        style: GoogleFonts.caveat(
+                            textStyle: const TextStyle(
+                                fontSize: 30.0, letterSpacing: 2.0)),
+                      ))
                 ],
               ),
             ),
-      );
+    );
   }
 }
