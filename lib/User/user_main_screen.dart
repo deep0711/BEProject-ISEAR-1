@@ -232,7 +232,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
 
     cameraFile = await _picker.pickImage(
         source: ImageSource.camera,
-        preferredCameraDevice: CameraDevice.front // Back side Camera
+        preferredCameraDevice: CameraDevice.rear // Back side Camera
         );
   }
 
