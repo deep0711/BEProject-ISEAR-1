@@ -32,51 +32,17 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
     arCoreController = _controller;
     //arCoreController.onNodeTap = (name) => onTapHandler(name);
     _addModel(arCoreController);
-    /*
-    //Based on Label value, add different type of Models
-    switch (widget.label) {
-      case "Banana":
-        {
-          _addModel(arCoreController);
-        }
-        break;
-      case "Cabbage":
-        {
-          _addModel(arCoreController);
-        }
-        break;
-      case "Mussel":
-        {
-          _addModel(arCoreController);
-        }
-        break;
-      case "Orange":
-        {
-          _addModel(arCoreController);
-        }
-        break;
-      case "Cocoba":
-        {
-          _addModel(arCoreController);
-        }
-        break;
-    }
-    */
-  }
-
-  void onTapHandler(String name) {
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-          content: Text('Object Detected -' +
-              widget.label! +
-              ' with confidence ' +
-              widget.confidence!)),
-    );
   }
 
   _addModel(ArCoreController _controller) async {
-    final ByteData textureBytes = await rootBundle.load('Assets/test.png');
+    final ByteData textureBytes;
+
+    if (widget.label == 'Banana')
+      textureBytes = await rootBundle.load('Assets/Banana.png');
+    else if (widget.label == 'Orange')
+      textureBytes = await rootBundle.load('Assets/Orange.png');
+    else
+      textureBytes = await rootBundle.load('Assets/Cabbage.png');
 
     final material = ArCoreMaterial(
         color: Color.fromARGB(120, 66, 134, 244),
