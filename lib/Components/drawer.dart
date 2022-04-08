@@ -5,38 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDrawer extends StatelessWidget {
-
-  CustomDrawer({ Key? key }) : super(key: key);
+  CustomDrawer({Key? key}) : super(key: key);
   final User user = FirebaseAuth.instance.currentUser as User;
 
   Widget getUSerAccountsDrawerHeader() {
-
     String userEmail = user.email as String;
-    if(user.photoURL == null) {
+    if (user.photoURL == null) {
       return UserAccountsDrawerHeader(
         accountEmail: Text(
           userEmail,
           style: GoogleFonts.caveat(
-            letterSpacing: 2.0,
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold
-            )
-          ),
+              letterSpacing: 2.0,
+              textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         accountName: Text(
-          'Kunal Khanra',
+          'Deepak Tiwari',
           style: GoogleFonts.caveat(
-            letterSpacing: 2.0,
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold
-            )
-          ),
+              letterSpacing: 2.0,
+              textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
-        decoration: const BoxDecoration(
-          color: Colors.white70
-        ),
+        decoration: const BoxDecoration(color: Colors.white70),
       );
-    } else { 
+    } else {
       String photoURL = user.photoURL as String;
       String displayName = user.displayName as String;
       return UserAccountsDrawerHeader(
@@ -46,24 +36,16 @@ class CustomDrawer extends StatelessWidget {
         accountEmail: Text(
           userEmail,
           style: GoogleFonts.caveat(
-            letterSpacing: 2.0,
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold
-            )
-          ),
+              letterSpacing: 2.0,
+              textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         accountName: Text(
           displayName,
           style: GoogleFonts.caveat(
-            letterSpacing: 2.0,
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold
-            )
-          ),
+              letterSpacing: 2.0,
+              textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
-        decoration: const BoxDecoration(
-          color: Colors.white70
-        ),
+        decoration: const BoxDecoration(color: Colors.white70),
       );
     }
   }
@@ -129,7 +111,8 @@ class CustomDrawer extends StatelessWidget {
             ),
             onTap: () async {
               await FireBaseAuthHelper.signOutuser();
-              Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/login', (Route<dynamic> route) => false);
             },
           )
         ],
