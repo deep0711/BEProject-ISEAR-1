@@ -15,7 +15,6 @@ class _UserDashboardState extends State<UserDashboard> {
     'https://www.marketing91.com/wp-content/uploads/2020/07/Business-model-of-big-bazaar.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/DLF_logo.svg/1200px-DLF_logo.svg.png',
     'https://static.wikia.nocookie.net/logopedia/images/9/95/Pantaloons.png/revision/latest/scale-to-width-down/300?cb=20200321132918',
-    'https://lh3.googleusercontent.com/proxy/LAQP80rlYEwWfDkEa3trIOJkIEq-gOb9JAia1VlFKHxaxOsSE5Sm2AhChGV4E5w6np0ND4LfcdcgqkQmNEmaSzcqS7Zg38-yX5E4eOUxfOBMWkbIcwybE79gWVBncbffZ5VEkhoQly-2ffQZLgQ',
     'https://corporate.walmart.com/_download?id=0000016d-f8b2-d758-a1ed-f8b290f10000',
   ];
 
