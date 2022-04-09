@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -51,13 +52,14 @@ class _SplashScreen extends State<SplashScreen> {
       home: Scaffold(
         backgroundColor: Colors.green,
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.amber.shade500,
-                Colors.yellow.shade200
+                Colors.black26,
+                Colors.green,
+                Colors.black45
               ]
             ),
           ),
@@ -73,19 +75,21 @@ class _SplashScreen extends State<SplashScreen> {
                     height: 250.0,
                     width: 250.0,
                     child: Image.asset('Assets/splash.png'),
-                  ),
-                  const Text(
+                  ), 
+                  Text(
                     'ISEAR',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      letterSpacing: 2.0,
+                    style: GoogleFonts.caveat(
+                      textStyle: const TextStyle(
+                        fontSize: 35.0,
+                        letterSpacing: 2.0,
+                        color: Colors.black
+                      )
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: CircularProgressIndicator(
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   )
                 ],
