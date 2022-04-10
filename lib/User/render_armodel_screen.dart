@@ -69,7 +69,7 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
     final toucanNode = ArCoreReferenceNode(
         name: "3D Model",
         objectUrl:
-            "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF/Duck.gltf",
+            "https://github.com/deep0711/BEProject-ISEAR-1/raw/main/Models/scene/scene.gltf",
         position: plane.pose.translation,
         rotation: plane.pose.rotation,
         scale: vector.Vector3(0.5, 0.5, 0.5));

@@ -1,6 +1,5 @@
 import 'package:be_isear/Authentication/firebase_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,7 +18,7 @@ class CustomDrawer extends StatelessWidget {
               textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         accountName: Text(
-          'Deepak Tiwari',
+          '',
           style: GoogleFonts.caveat(
               letterSpacing: 2.0,
               textStyle: const TextStyle(fontWeight: FontWeight.bold)),
