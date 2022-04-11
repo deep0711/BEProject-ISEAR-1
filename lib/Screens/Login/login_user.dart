@@ -1,7 +1,7 @@
 // import 'dart:html';
 
 import 'package:be_isear/Authentication/firebase_authentication.dart';
-import 'package:be_isear/FireStore/FireStoreUser.dart';
+import 'package:be_isear/FireStore/firestore_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class _LoginUser extends State<LoginUser> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool hideEnteredPassword = true;
   bool isLoggingIn = false; // FeedBack to User while Logging In
 
   @override
@@ -133,8 +134,16 @@ class _LoginUser extends State<LoginUser> {
                                       letterSpacing: 2,
                                       color: Colors.black)),
                               prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    hideEnteredPassword = !hideEnteredPassword;
+                                  });
+                                },
+                                icon: const Icon(Icons.remove_red_eye_outlined)
+                              )
                             ),
-                            obscureText: true,
+                            obscureText: hideEnteredPassword,
                             keyboardType: TextInputType.visiblePassword,
                           ),
                         ),

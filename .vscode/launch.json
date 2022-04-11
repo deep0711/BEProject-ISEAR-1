@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib\\FireStore\\FireStoreUser.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\FireStore\\FireStoreUser.dart"
+        }
+    ]
+}

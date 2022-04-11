@@ -1,6 +1,5 @@
 import 'package:be_isear/Authentication/firebase_authentication.dart';
-import 'package:be_isear/FireStore/FireStoreUser.dart';
-import 'package:be_isear/FireStore/FireStoreUser.dart';
+import 'package:be_isear/FireStore/firestore_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

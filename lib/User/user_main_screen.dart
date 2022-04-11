@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:be_isear/Components/appbar.dart';
 import 'package:be_isear/Components/drawer.dart';
 import 'package:be_isear/User/User%20Dashboard/user_dashboard.dart';
+import 'package:be_isear/User/User%20Profile/user_profile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:be_isear/User/render_armodel_screen.dart';
@@ -264,9 +265,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
           ),
           Container(
             color: Colors.white,
-            child: const Center(
-              child: Text('Third Page'),
-            ),
+            child: const UserProfile(),
           )
         ],
       ),
