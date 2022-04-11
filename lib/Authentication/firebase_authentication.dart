@@ -3,48 +3,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseAuthHelper {
-
   /// Register Suer With Personal Email and Password
-  static Future<User?> registerUsingEmailPassword ({
-      required String email, 
-      required String password
-    }) async {
-    
+  static Future<User?> registerUsingEmailPassword(
+      {required String email, required String password}) async {
     // Create a FirebaseAuth Instance
     FirebaseAuth auth = FirebaseAuth.instance;
-    // Creaate a User 
+    // Creaate a User
     User? user;
 
     try {
       // Register user to Firebase with Email and password , Save the User Credential
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email, 
-        password: password
-      );
+          email: email, password: password);
       user = userCredential.user;
-    } on FirebaseAuthException catch(err) {
+    } on FirebaseAuthException catch (err) {
       // Catch any Firebase Exception
-    }
-    catch(err) {
+    } catch (err) {
       // print(err);
     }
     return user;
   }
 
   /// SignIn User With Email and Password
-  static Future<String> signInUsingEmailPassword({
-    required String email, 
-    required String password
-  }) async {
+  static Future<String> signInUsingEmailPassword(
+      {required String email, required String password}) async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
-      await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (err) {
-        return err.message.toString();
+      return err.message.toString();
     } catch (e) {
       return "Unknown Error";
     }
-
     return "Successfully Signed In";
   }
 
@@ -54,23 +45,25 @@ class FireBaseAuthHelper {
     User? user;
 
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
 
-    if(googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken
-      );
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken);
 
       try {
-        final UserCredential userCredential = await auth.signInWithCredential(credential);
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
         user = userCredential.user;
-      } on FirebaseAuthException catch(err) {
+      } on FirebaseAuthException catch (err) {
         // ignore: avoid_print
         print(err.code);
-        if(err.code == 'account-exists-with-different-credential') {
+        if (err.code == 'account-exists-with-different-credential') {
           //
         }
       } catch (e) {
@@ -78,7 +71,7 @@ class FireBaseAuthHelper {
         print(e);
       }
     }
-    
+
     return user;
   }
 
@@ -87,11 +80,9 @@ class FireBaseAuthHelper {
   }
 
   static Future<User?> getCurrentLoggedInUser() async {
-  
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     User? user = firebaseAuth.currentUser;
 
-    return user; 
+    return user;
   }
-
 }

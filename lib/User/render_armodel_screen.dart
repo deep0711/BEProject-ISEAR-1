@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,13 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
 
   _onArCoreViewCreated(ArCoreController _controller) {
     arCoreController = _controller;
+
     //arCoreController.onNodeTap = (name) => onTapHandler(name);
-    _addModel(arCoreController);
+    arCoreController.onPlaneTap = _handleOnPlaneTap;
+    //arCoreController.onNodeTap = (name) => onTapHandler(name);
   }
 
-  _addModel(ArCoreController _controller) async {
+  _addCube(ArCoreHitTestResult plane) async {
     final ByteData textureBytes;
 
     if (widget.label == 'Banana')
@@ -50,11 +53,55 @@ class _RenderArModelScreenState extends State<RenderArModelScreen> {
 
     //Adding a Cube
     final cube =
-        ArCoreCube(materials: [material], size: vector.Vector3(0.1, 0.1, 0.1));
+        ArCoreCube(materials: [material], size: vector.Vector3(0.2, 0.2, 0.2));
 
-    final cubenode = ArCoreNode(shape: cube, position: vector.Vector3(0, 0, 0));
+    final cubenode = ArCoreNode(
+        shape: cube,
+        position: plane.pose.translation + vector.Vector3(-0.5, 0, 0));
 
-    _controller.addArCoreNode(cubenode);
+    arCoreController.addArCoreNode(cubenode);
+  }
+
+  void _addModel(ArCoreHitTestResult plane) {
+    //"https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF/Duck.gltf"
+    //"Banana" (https://skfb.ly/ooXIP) by matousekfoto is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+    log("Mai yha hu");
+    final toucanNode = ArCoreReferenceNode(
+        name: "3D Model",
+        objectUrl:
+            "https://github.com/deep0711/BEProject-ISEAR-1/raw/main/Models/scene/scene.gltf",
+        position: plane.pose.translation,
+        rotation: plane.pose.rotation,
+        scale: vector.Vector3(0.5, 0.5, 0.5));
+
+    arCoreController.addArCoreNodeWithAnchor(toucanNode);
+  }
+
+  void _handleOnPlaneTap(List<ArCoreHitTestResult> hits) {
+    final hit = hits.first;
+    _addModel(hit);
+    //_addCube(hit);
+  }
+
+  void onTapHandler(String name) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Row(
+          children: <Widget>[
+            Text('Remove $name?'),
+            IconButton(
+                icon: Icon(
+                  Icons.delete,
+                ),
+                onPressed: () {
+                  arCoreController.removeNode(nodeName: name);
+                  Navigator.pop(context);
+                })
+          ],
+        ),
+      ),
+    );
   }
 
   @override
