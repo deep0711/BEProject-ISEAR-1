@@ -93,6 +93,12 @@ class _RegisterUserState extends State<RegisterUser> {
                           child: TextFormField(
                             controller: _emailController,
                             autofocus: true,
+                            textAlignVertical: TextAlignVertical.top,
+                            style: GoogleFonts.caveat(
+                              textStyle: const TextStyle(
+                                fontSize: 20.0
+                              )
+                            ),
                             cursorColor: Colors.black,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
@@ -126,7 +132,13 @@ class _RegisterUserState extends State<RegisterUser> {
                           width: 350,
                           child: TextFormField(
                             controller: _passwordController,
-                            obscureText: true,
+                            style: GoogleFonts.caveat(
+                              textStyle: const TextStyle(
+                                fontSize: 20.0
+                              )
+                            ),
+                            textAlignVertical: TextAlignVertical.top,
+                            // obscureText: true,
                             cursorColor: Colors.black,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(

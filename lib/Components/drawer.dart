@@ -1,4 +1,5 @@
 import 'package:be_isear/Authentication/firebase_authentication.dart';
+import 'package:be_isear/FireStore/firestore_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,9 +8,16 @@ class CustomDrawer extends StatelessWidget {
   CustomDrawer({Key? key}) : super(key: key);
   final User user = FirebaseAuth.instance.currentUser as User;
 
-  Widget getUSerAccountsDrawerHeader() {
-    String userEmail = user.email as String;
-    if (user.photoURL == null) {
+  /**
+   * Get the current User Detail from the FireStore
+   */
+  Future<FireStoreUserHelper?> getCurrenUser() async {
+    FireStoreUserHelper? _currentUser = await FireStoreUserHelper.getUserDetails(user);
+    return _currentUser;
+  }
+
+  Widget getUSerAccountsDrawerHeader(String userEmail , String? photoURL , String? displayName) {
+    if (photoURL == null) {
       return UserAccountsDrawerHeader(
         accountEmail: Text(
           userEmail,
@@ -18,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
               textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         accountName: Text(
-          '',
+          displayName ?? '',
           style: GoogleFonts.caveat(
               letterSpacing: 2.0,
               textStyle: const TextStyle(fontWeight: FontWeight.bold)),
@@ -26,8 +34,6 @@ class CustomDrawer extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.white70),
       );
     } else {
-      String photoURL = user.photoURL as String;
-      String displayName = user.displayName as String;
       return UserAccountsDrawerHeader(
         currentAccountPicture: CircleAvatar(
           backgroundImage: NetworkImage(photoURL),
@@ -39,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
               textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         accountName: Text(
-          displayName,
+          displayName as String,
           style: GoogleFonts.caveat(
               letterSpacing: 2.0,
               textStyle: const TextStyle(fontWeight: FontWeight.bold)),
@@ -55,7 +61,24 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          getUSerAccountsDrawerHeader(),
+          FutureBuilder(
+            future: getCurrenUser(),
+            builder: (BuildContext context , AsyncSnapshot<FireStoreUserHelper?> snapshot) {
+              if(snapshot.connectionState == ConnectionState.done) {
+                return getUSerAccountsDrawerHeader(snapshot.data!.emailId, snapshot.data!.photoUrl, snapshot.data!.displayName);
+              }
+              return Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 50.0),
+                  height: 30.0,
+                  width: 30.0,
+                  child: const CircularProgressIndicator(
+                    color: Colors.black,
+                  )
+                ),
+              );
+            },  
+          ),
           ListTile(
             leading: const Icon(Icons.house),
             title: Text(
@@ -113,7 +136,7 @@ class CustomDrawer extends StatelessWidget {
               Navigator.of(context).pushNamedAndRemoveUntil(
                   '/login', (Route<dynamic> route) => false);
             },
-          )
+          ),
         ],
       ),
     );

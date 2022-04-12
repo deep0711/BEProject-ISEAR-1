@@ -50,16 +50,18 @@ class _SplashScreen extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.green,
+        // backgroundColor: Colors.green,
         body: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.black26,
-                Colors.green,
-                Colors.black45
+                Colors.cyan.shade400,
+                Colors.white,
+                Colors.white24,
+                Colors.cyan.shade300,
+                Colors.cyan.shade700
               ]
             ),
           ),
@@ -81,7 +83,7 @@ class _SplashScreen extends State<SplashScreen> {
                     style: GoogleFonts.caveat(
                       textStyle: const TextStyle(
                         fontSize: 35.0,
-                        letterSpacing: 2.0,
+                        letterSpacing: 3.0,
                         color: Colors.black
                       )
                     ),

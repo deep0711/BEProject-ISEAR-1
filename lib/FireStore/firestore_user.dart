@@ -40,14 +40,29 @@ class FireStoreUserHelper {
     FirebaseFirestore _fireStore = FirebaseFirestore.instance;
     CollectionReference _registeredUsers = _fireStore.collection('registeredUsers');
 
-    FireStoreUserHelper? _currentUser;
+    late FireStoreUserHelper? _currentUser;
 
     try {
       await _registeredUsers.doc(user?.uid).get()
       .then((DocumentSnapshot) => {
-        _currentUser = FireStoreUserHelper(DocumentSnapshot['Emaild_id'], DocumentSnapshot['Photo_url'], DocumentSnapshot['display_name'])
+        _currentUser = FireStoreUserHelper(DocumentSnapshot['Email_id'], DocumentSnapshot['Photo_url'], DocumentSnapshot['display_name'])
       });
-      return _currentUser;
+    } catch(err) {
+      // ignore: avoid_print
+      print(err);
+    }
+    return _currentUser;
+  }
+
+  /**
+   * Update User Display Name in FireStore
+   */
+  static Future<void> updateUserDisplayName(User? user , String? displayName) async {
+    FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+    CollectionReference _registeredUsers = _fireStore.collection('registeredUsers');
+
+    try {
+      await _registeredUsers.doc(user!.uid).update({"display_name" : displayName as String});
     } catch(err) {
       // ignore: avoid_print
       print(err);

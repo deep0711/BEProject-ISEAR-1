@@ -94,6 +94,12 @@ class _LoginUser extends State<LoginUser> {
                           width: 350.0,
                           child: TextField(
                             controller: _emailController,
+                            style: GoogleFonts.caveat(
+                              textStyle: const TextStyle(
+                                fontSize: 20.0
+                              )
+                            ),
+                            textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.only(
@@ -120,6 +126,12 @@ class _LoginUser extends State<LoginUser> {
                           width: 350.0,
                           child: TextField(
                             controller: _passwordController,
+                            style: GoogleFonts.caveat(
+                              textStyle: const TextStyle(
+                                fontSize: 20.0
+                              )
+                            ),
+                            textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.only(
